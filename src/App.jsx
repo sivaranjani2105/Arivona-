@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { motion } from "framer-motion";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -11,17 +12,15 @@ const Features = lazy(() => import("./pages/Features"));
 const Estimate = lazy(() => import("./pages/Estimate"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
 
-// Loading fallback component
 const PageLoader = () => (
-  <div style={{ 
-    display: 'flex', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    height: '100vh', 
-    background: '#0a0a0b',
-    color: '#3b82f6'
-  }}>
-    <div className="animate-pulse">Loading Arvio...</div>
+  <div className="flex flex-col justify-center items-center h-screen bg-slate-950 text-white font-sans">
+    <div className="w-16 h-16 relative mb-8">
+      <div className="absolute inset-0 border-4 border-white/10 rounded-2xl" />
+      <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+        className="absolute inset-0 border-4 border-primary-500 border-t-transparent rounded-2xl" />
+      <div className="absolute inset-0 flex items-center justify-center text-2xl">⚡</div>
+    </div>
+    <div className="text-xs font-black uppercase tracking-[0.3em] animate-pulse text-slate-400 italic">Initializing Arviona Hub</div>
   </div>
 );
 

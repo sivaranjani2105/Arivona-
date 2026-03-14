@@ -1,27 +1,24 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [explanationDepth, setExplanationDepth] = useState("ELI5");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Sync with localStorage on mount
+  const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("arviona_user");
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        return JSON.parse(storedUser);
       } catch (e) {
         console.error("Failed to parse stored user", e);
         localStorage.removeItem("arviona_user");
       }
     }
-    const storedDepth = localStorage.getItem("arviona_depth");
-    if (storedDepth) setExplanationDepth(storedDepth);
-    setLoading(false);
-  }, []);
+    return null;
+  });
+  const [explanationDepth, setExplanationDepth] = useState(() => {
+    return localStorage.getItem("arviona_depth") || "ELI5";
+  });
+  const [loading] = useState(false);
 
   const updateDepth = (depth) => {
     setExplanationDepth(depth);
@@ -78,6 +75,7 @@ export function AuthProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

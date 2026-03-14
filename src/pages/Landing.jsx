@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Sparkles, BookOpen, Layers } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -11,14 +11,7 @@ export default function Landing() {
     }
 
     return (
-        <div style={{
-            minHeight: "100vh",
-            background: "linear-gradient(135deg, #F8FAFF 0%, #EEF4FF 40%, #FFF8F0 100%)",
-            fontFamily: "'DM Sans', sans-serif",
-            color: "#0F172A",
-            overflow: "hidden",
-            position: "relative"
-        }}>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-orange-50 font-sans text-slate-900 overflow-hidden relative">
             {/* Decorative blobs */}
             <motion.div 
                 animate={{ 
@@ -27,7 +20,7 @@ export default function Landing() {
                     y: [0, -20, 0]
                 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", top: -100, right: -100, width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)", pointerEvents: "none", willChange: "transform" }} 
+                className="absolute -top-24 -right-24 w-[600px] h-[600px] rounded-full bg-radial-gradient from-primary-600/10 to-transparent pointer-events-none blur-3xl"
             />
             <motion.div 
                 animate={{ 
@@ -36,79 +29,70 @@ export default function Landing() {
                     y: [0, 30, 0]
                 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", bottom: -200, left: -100, width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%)", pointerEvents: "none", willChange: "transform" }} 
+                className="absolute -bottom-48 -left-24 w-[500px] h-[500px] rounded-full bg-radial-gradient from-orange-400/10 to-transparent pointer-events-none blur-3xl"
             />
 
             {/* Navbar */}
-            <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "24px 48px", position: "relative", zIndex: 10 }}>
-                <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
-                    <div style={{
-                        width: 42, height: 42, borderRadius: 12,
-                        background: "linear-gradient(135deg, #2563EB, #7C3AED)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 20, boxShadow: "0 8px 24px rgba(37,99,235,0.3)"
-                    }}>⚡</div>
-                    <span style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.5px" }}>ARVIONA</span>
+            <nav className="flex justify-between items-center px-6 md:px-12 py-6 relative z-50 glass mb-8">
+                <Link to="/" className="no-underline flex items-center gap-3.5 group">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-violet-600 flex items-center justify-center text-xl shadow-lg shadow-primary-600/30 group-hover:scale-110 transition-transform duration-300">⚡</div>
+                    <span className="text-2xl font-extrabold tracking-tight">ARVIONA</span>
                 </Link>
-                <div style={{ display: "flex", gap: 16 }}>
-                    <Link  to="/estimate" style={{
-                        textDecoration: "none", color: "#1E293B", fontWeight: 600, padding: "10px 20px", borderRadius: 12, transition: "background 0.2s"
-                    }} onMouseEnter={(e) => e.target.style.background = "#F1F5F9"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Estimate</Link>
-                    <Link  to="/features" style={{
-                        textDecoration: "none", color: "#1E293B", fontWeight: 600, padding: "10px 20px", borderRadius: 12, transition: "background 0.2s"
-                    }} onMouseEnter={(e) => e.target.style.background = "#F1F5F9"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Feature Library</Link>
-                    <Link  to="/login" style={{
-                        textDecoration: "none", color: "#1E293B", fontWeight: 600, padding: "10px 20px", borderRadius: 12, transition: "background 0.2s"
-                    }} onMouseEnter={(e) => e.target.style.background = "#F1F5F9"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Login</Link>
-                    <Link  to="/login" style={{
-                        textDecoration: "none", color: "#fff", background: "#2563EB", fontWeight: 600, padding: "10px 24px", borderRadius: 12,
-                        boxShadow: "0 4px 14px rgba(37,99,235,0.3)", display: "flex", alignItems: "center", gap: 8
-                    }}>Get Started <ArrowRight size={16} /></Link>
+                <div className="hidden md:flex items-center gap-4">
+                    <Link to="/estimate" className="no-underline text-slate-700 font-semibold px-5 py-2.5 rounded-xl hover:bg-slate-100 transition-colors">Estimate</Link>
+                    <Link to="/features" className="no-underline text-slate-700 font-semibold px-5 py-2.5 rounded-xl hover:bg-slate-100 transition-colors">Features</Link>
+                    <Link to="/login" className="no-underline text-slate-700 font-semibold px-5 py-2.5 rounded-xl hover:bg-slate-100 transition-colors">Login</Link>
+                    <Link to="/login" className="no-underline text-white bg-primary-600 font-semibold px-6 py-2.5 rounded-xl shadow-lg shadow-primary-600/30 flex items-center gap-2 hover:bg-primary-700 hover:-translate-y-0.5 transition-all">
+                        Get Started <ArrowRight size={16} />
+                    </Link>
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <main style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 24px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", position: "relative", zIndex: 10 }}>
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                    <span style={{ padding: "8px 16px", borderRadius: 20, background: "#EFF6FF", color: "#2563EB", fontWeight: 700, fontSize: 13, border: "1px solid #BFDBFE", marginBottom: 24, display: "inline-block" }}>
-                        ✨ Arviona Alpha Release is Here
+            <main className="max-w-7xl mx-auto px-6 py-20 flex flex-col items-center text-center relative z-10">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ duration: 0.6 }}
+                >
+                    <span className="px-4 py-2 rounded-full bg-primary-50 text-primary-600 font-bold text-xs border border-primary-200 mb-6 inline-block uppercase tracking-wider">
+                        ✨ Arviona Alpha Release
                     </span>
-                    <h1 style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-2px", lineHeight: 1.1, marginBottom: 24, color: "#0F172A" }}>
+                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-slate-900">
                         Adaptive Learning, <br />
-                        <span style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Engineered for You.</span>
+                        <span className="bg-gradient-to-r from-primary-600 to-violet-600 bg-clip-text text-transparent italic">Engineered for You.</span>
                     </h1>
-                    <p style={{ fontSize: 20, color: "#64748B", maxWidth: 600, margin: "0 auto 48px", lineHeight: 1.6 }}>
+                    <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
                         The personalized learning platform that adapts to your hesitation, confidence, and mastery in real-time.
                     </p>
-                    <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
-                        <Link  to="/login" style={{
-                            textDecoration: "none", background: "#0F172A", color: "#fff", padding: "16px 32px", borderRadius: 16, fontSize: 16, fontWeight: 700,
-                            boxShadow: "0 8px 24px rgba(15,23,42,0.2)", display: "flex", alignItems: "center", gap: 10, transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                        }} onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-4px) scale(1.02)"} onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0) scale(1)"}>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link to="/login" className="no-underline bg-slate-950 text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-xl shadow-slate-950/20 flex items-center justify-center gap-2.5 hover:-translate-y-1 hover:bg-slate-900 transition-all duration-300">
                             Create Student Profile <ArrowRight size={18} />
                         </Link>
-                        <Link  to="/estimate" style={{
-                            textDecoration: "none", background: "#fff", color: "#0F172A", padding: "16px 32px", borderRadius: 16, fontSize: 16, fontWeight: 700,
-                            boxShadow: "0 4px 14px rgba(0,0,0,0.05)", border: "1.5px solid #E2E8F0", display: "flex", alignItems: "center", gap: 10, transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                        }} onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-4px) scale(1.02)"} onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0) scale(1)"}>
+                        <Link to="/estimate" className="no-underline bg-white text-slate-900 px-10 py-4 rounded-2xl text-lg font-bold shadow-md border border-slate-200 flex items-center justify-center gap-2.5 hover:-translate-y-1 hover:bg-slate-50 transition-all duration-300">
                             View Build Estimate
                         </Link>
                     </div>
                 </motion.div>
 
                 {/* Features Grid */}
-                <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, marginTop: 80, width: "100%", maxWidth: 1000, textAlign: "left" }}>
+                <motion.div 
+                    initial={{ opacity: 0, y: 40 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ duration: 0.6, delay: 0.2 }} 
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 w-full max-w-5xl text-left"
+                >
                     {[
-                        { icon: <Sparkles size={24} color="#F59E0B" />, title: "AI-Powered Hesitation Detection", desc: "Recognizes when you're struggling before you even answer." },
-                        { icon: <BookOpen size={24} color="#10B981" />, title: "Dynamic Conceptual Mastery", desc: "Tracks your weak points and intelligently re-assesses gaps." },
-                        { icon: <Layers size={24} color="#6366F1" />, title: "Interactive Learning Hub", desc: "Bite-sized visual models that replace clunky textbooks." }
+                        { icon: <Sparkles size={24} className="text-orange-500" />, title: "AI Hesitation Detection", desc: "Recognizes when you're struggling before you even answer." },
+                        { icon: <BookOpen size={24} className="text-emerald-500" />, title: "Dynamic Mastery Tracking", desc: "Tracks your weak points and intelligently re-assesses gaps." },
+                        { icon: <Layers size={24} className="text-indigo-500" />, title: "Interactive Learning Hub", desc: "Bite-sized visual models that replace clunky textbooks." }
                     ].map((feat, i) => (
-                        <div  key={i} style={{ background: "#fff", padding: 32, borderRadius: 24, border: "1px solid #E2E8F0", boxShadow: "0 4px 20px rgba(0,0,0,0.03)" }}>
-                            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#F8FAFC", border: "1px solid #EEF2FF", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+                        <div key={i} className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-primary-600/10 transition-all duration-500 group">
+                            <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-indigo-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 {feat.icon}
                             </div>
-                            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>{feat.title}</h3>
-                            <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.6 }}>{feat.desc}</p>
+                            <h3 className="text-xl font-bold mb-3">{feat.title}</h3>
+                            <p className="text-slate-500 leading-relaxed text-sm font-medium">{feat.desc}</p>
                         </div>
                     ))}
                 </motion.div>
