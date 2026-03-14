@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, Calendar, Rocket, Layers, Code2, 
   ChevronDown, Star, Zap, Clock, CheckCircle2 
